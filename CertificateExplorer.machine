@@ -1,0 +1,16 @@
+machine("passivetotal.CertificateExplorer", 
+    displayName:"Certificate Explorer", 
+    author:"PassiveTotal",
+    description: "Quickly explore certificate connections based off detail information and IP overlap") {
+
+    start {
+        //Takes and IP address and retrieves passive SSL hash values
+        run("paterva.v2.ptGetSSLCertHistIP")
+        //retrives SSL IP history based on SHA-1
+        run("paterva.v2.ptGetSSLCertHistSha1")
+        //Pulls passive DNS for all IP addresses
+        run("paterva.v2.ptGetPassiveIP")
+        //Pulls OSINT for all IP addresses
+        run("paterva.v2.ptGetOSINT")
+    }   
+}
