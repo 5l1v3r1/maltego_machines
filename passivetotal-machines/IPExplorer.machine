@@ -1,0 +1,34 @@
+machine("passivetotal.IPExplorer",
+    displayName: "IP Explorer",
+    author: "PassiveTotal",
+    description: "Rapidly build out second order connections and enrichment data for a given IP address") {
+
+    start {
+        paths {
+            path {
+                //Gets passive DNS domain associations for IP address
+                run("paterva.v2.ptGetPassiveIP")
+                //Gets passive DNS IP associations for above domains
+                run("paterva.v2.ptGetPassive")
+                //Gets passive DNS domains associations for above IPs 
+                run("paterva.v2.ptGetPassiveIP")
+            }
+            path {
+                //Gets tags for starting IP address
+                run("paterva.v2.ptGetTagIP")
+            }
+            path {
+                //Gets malware associaitons for starting IP address
+                run("paterva.v2.ptGetMalwareIP")
+            }
+            path {
+                //Gets certificate associations for starting IP address
+                run("paterva.v2.ptGetSSLCertHistIP")
+            }
+            path {
+                //Gets OSINT for starting IP
+                run("paterva.v2.ptGetOSINTIP")
+            }
+        }
+    }
+}

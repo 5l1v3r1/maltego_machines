@@ -1,0 +1,26 @@
+machine("passivetotal.DomainExplorer",
+    displayName: "Domain Explorer",
+    author: "PassiveTotal",
+    description: "Pulls all relevant information from PassiveTotal about a given domain and all second order connections.") {
+
+    start {
+        paths {
+            path {
+                //Gets PassiveDNS for Domain in question
+                run("paterva.v2.ptGetPassive")
+            }
+            path {
+                //Pulls all Subdomains for above Domain
+                run("paterva.v2.ptGetSubdomains")
+                //Gets PassiveDNS for all subdomains
+                run("paterva.v2.ptGetPassive")
+                run("paterva.v2.ptGetPassiveIP")
+            }
+            path {
+                //Pulls Whois detials for starting domain and allows user filler results
+                run("paterva.v2.ptGetWhoisDetails")
+                userFilter()
+            }
+        }
+    }
+}

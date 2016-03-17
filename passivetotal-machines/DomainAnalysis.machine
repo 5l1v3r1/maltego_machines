@@ -1,0 +1,28 @@
+machine("passivetotal.DomainAnalysis",
+    displayName: "Domain Analysis",
+    author: "PassiveTotal",
+    description: "Pulls all relevant information from PassiveTotal About a given domain.") {
+
+    start {
+        paths {
+            path {
+                //Gets PassiveDNS for Domain in question
+                run("paterva.v2.ptGetPassive")
+            }
+            path {
+                //Pulls all Subdomains for above Domain
+                run("paterva.v2.ptGetSubdomains")
+                //Gets PassiveDNS for all subdomains
+                run("paterva.v2.ptGetPassive")
+            }
+            path {
+                run("paterva.v2.ptGetDynamic")
+            }
+            path {
+                //Pulls Whois detials for starting domain and allows user filler results
+                run("paterva.v2.ptGetWhoisDetails")
+                userFilter()
+            }
+        }
+    }
+}
